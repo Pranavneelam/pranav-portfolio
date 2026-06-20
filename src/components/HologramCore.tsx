@@ -1,48 +1,96 @@
 ﻿"use client";
-import { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
+import { useEffect, useRef } from "react";
 
-function ParticleSphere() {
-  const ref = useRef<any>(null);
-  const [sphere] = useState(() => {
-    const points = new Float32Array(1200 * 3);
-    for (let i = 0; i < 1200; i++) {
+export default function HologramCore() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const particles: Array<{ x: number; y: number; r: number; origX: number; origY: number; angle: number; speed: number }> = [];
+    const particleCount = 50;
+    const sphereRadius = Math.min(width, height) * 0.24;
+
+    for (let i = 0; i < particleCount; i++) {
       const u = Math.random();
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const r = 1.5 * Math.cbrt(Math.random());
-      points[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      points[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      points[i * 3 + 2] = r * Math.cos(phi);
+      
+      const x = sphereRadius * Math.sin(phi) * Math.cos(theta);
+      const y = sphereRadius * Math.sin(phi) * Math.sin(theta);
+
+      particles.push({
+        x: width / 2 + x,
+        y: height / 2 + y,
+        origX: x,
+        origY: y,
+        r: Math.random() * 2 + 1,
+        angle: Math.random() * Math.PI * 2,
+        speed: 0.003 + Math.random() * 0.003
+      });
     }
-    return points;
-  });
 
-  useFrame((state, delta) => {
-    if (ref.current) {
-      ref.current.rotation.x += delta * 0.08;
-      ref.current.rotation.y += delta * 0.12;
-    }
-  });
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
 
-  return (
-    <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
-        <PointMaterial transparent color="#00f0ff" size={0.03} sizeAttenuation={true} depthWrite={false} />
-      </Points>
-    </group>
-  );
-}
+    const renderLoop = () => {
+      ctx.clearRect(0, 0, width, height);
 
-export default function HologramCore() {
-  return (
-    <div className="absolute inset-0 z-0 bg-black">
-      <Canvas camera={{ position: [0, 0, 3] }}>
-        <ambientLight intensity={0.4} />
-        <ParticleSphere />
-      </Canvas>
-    </div>
-  );
+      // Subtle bright indigo network webbing
+      ctx.strokeStyle = "rgba(79, 70, 229, 0.07)";
+      ctx.lineWidth = 0.75;
+      
+      particles.forEach((p, index) => {
+        p.angle += p.speed;
+        const cos = Math.cos(p.speed);
+        const sin = Math.sin(p.speed);
+        
+        const nextX = p.origX * cos - p.origY * sin;
+        const nextY = p.origX * sin + p.origY * cos;
+        p.origX = nextX;
+        p.origY = nextY;
+
+        p.x = width / 2 + nextX;
+        p.y = height / 2 + nextY;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(79, 70, 229, 0.35)";
+        ctx.fill();
+
+        for (let j = index + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 95) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(renderLoop);
+    };
+    renderLoop();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />;
 }
