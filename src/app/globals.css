@@ -1,0 +1,15 @@
+﻿@import "tailwindcss";
+
+html, body {
+  background-color: #000000 !important;
+  color: #e2e8f0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+}
