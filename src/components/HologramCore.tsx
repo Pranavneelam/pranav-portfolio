@@ -15,7 +15,7 @@ export default function HologramCore() {
     let height = (canvas.height = window.innerHeight);
 
     const particles: Array<{ x: number; y: number; r: number; origX: number; origY: number; angle: number; speed: number }> = [];
-    const particleCount = 50;
+    const particleCount = 55;
     const sphereRadius = Math.min(width, height) * 0.24;
 
     for (let i = 0; i < particleCount; i++) {
@@ -32,9 +32,9 @@ export default function HologramCore() {
         y: height / 2 + y,
         origX: x,
         origY: y,
-        r: Math.random() * 2 + 1,
+        r: Math.random() * 1.8 + 1,
         angle: Math.random() * Math.PI * 2,
-        speed: 0.003 + Math.random() * 0.003
+        speed: 0.002 + Math.random() * 0.003
       });
     }
 
@@ -48,9 +48,8 @@ export default function HologramCore() {
     const renderLoop = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Subtle bright indigo network webbing
-      ctx.strokeStyle = "rgba(79, 70, 229, 0.07)";
-      ctx.lineWidth = 0.75;
+      ctx.strokeStyle = "rgba(99, 102, 241, 0.09)";
+      ctx.lineWidth = 0.8;
       
       particles.forEach((p, index) => {
         p.angle += p.speed;
@@ -67,13 +66,13 @@ export default function HologramCore() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(79, 70, 229, 0.35)";
+        ctx.fillStyle = "rgba(129, 140, 248, 0.5)";
         ctx.fill();
 
         for (let j = index + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 95) {
+          if (dist < 100) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
@@ -92,5 +91,5 @@ export default function HologramCore() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />;
+  return <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none bg-black" />;
 }
