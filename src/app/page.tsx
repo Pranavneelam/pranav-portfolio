@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useState, useEffect, useRef } from "react";
-import { Shield, Activity, Terminal, ChevronDown, RefreshCw, Cpu, Code2, Database, Box, Brain, Network, TerminalSquare, Cloud, Flame, Globe, FileText, Linkedin, Github } from "lucide-react";
+import { Shield, Activity, Terminal, ChevronDown, RefreshCw, Cpu, Code2, Database, Box, Brain, Network, TerminalSquare, Cloud, Flame, Globe, FileText } from "lucide-react";
 import HologramCore from "../components/HologramCore";
 import ProjectGrid from "../components/ProjectGrid";
 
@@ -158,12 +158,14 @@ export default function Home() {
             </a>
             
             <a 
-              href="https://linkedin.com/in/pranavneelam" 
+              href="https://www.linkedin.com/in/pranav-neelam-225219220/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-indigo-400 border border-zinc-800 text-[11px] font-bold tracking-wider uppercase rounded transition-all cursor-pointer"
             >
-              <Linkedin size={13} />
+              <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="13" width="13" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H3.242v7.225h1.701zm-1.06-8.112c.563 0 1.013-.45 1.013-1.013 0-.562-.45-1.012-1.012-1.012-.564 0-1.013.45-1.013 1.012 0 .563.45 1.013 1.013 1.013zm10.96 8.112v-3.97c0-2.127-1.135-3.116-2.648-3.116-1.22 0-1.767.671-2.071 1.143v-.98h-1.7c.022.48 0 7.225 0 7.225h1.699V9.97c0-.387.028-.774.141-1.05.31-.774 1.019-1.577 2.21-1.577 1.558 0 2.18 1.188 2.18 2.928v4.034h1.698z"></path>
+              </svg>
               <span className="hidden md:inline">LinkedIn</span>
             </a>
 
@@ -173,7 +175,9 @@ export default function Home() {
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-indigo-400 border border-zinc-800 text-[11px] font-bold tracking-wider uppercase rounded transition-all cursor-pointer"
             >
-              <Github size={13} />
+              <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="13" width="13" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+              </svg>
               <span className="hidden md:inline">GitHub</span>
             </a>
           </div>
@@ -327,7 +331,7 @@ export default function Home() {
         {/* FOOTER */}
         <footer className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-zinc-900 pt-6 mt-12 text-[10px] text-zinc-500 font-bold pointer-events-auto">
           <div className="flex gap-6 items-center">
-            <span className="flex items-center gap-1.5 text-indigo-400 uppercase tracking-widest"><Shield size={12} /> SECURE_ID // PRANAV-NEELAM-2026</span>
+            <span className="flex items-center gap-1.5 text-indigo-400 uppercase tracking-widest"><Shield size={12} /> SECURE_ID // {`pranavneelam.1234@gmail.com`}</span>
           </div>
           <div className="tracking-widest text-zinc-400 font-black mt-2 sm:mt-0 uppercase">LOC: 17.3850° N, 78.4867° E // HYDERABAD, IN</div>
         </footer>
