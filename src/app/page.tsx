@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useState, useEffect, useRef } from "react";
-import { Shield, Activity, Terminal, ChevronDown, RefreshCw, Cpu, Code2, Database, Box, Brain, Network, TerminalSquare, Cloud, Flame, Globe, FileText } from "lucide-react";
+import { Shield, Activity, Terminal, ChevronDown, RefreshCw, Cpu, Code2, Database, Box, Brain, Network, TerminalSquare, Cloud, Flame, Globe, FileText, Send } from "lucide-react";
 import HologramCore from "../components/HologramCore";
 import ProjectGrid from "../components/ProjectGrid";
 
@@ -14,13 +14,17 @@ export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
+  // Form State
+  const [formStatus, setFormStatus] = useState<"IDLE" | "TRANSMITTING" | "SUCCESS" | "ERROR">("IDLE");
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+
   const rawAuditSteps = [
     "> INITIALIZING INTELLIGENT SYSTEMS PIPELINE...",
     "> MAPPING MODEL MATRIX: TRANSFORMERS & PYTORCH TENSORS...",
     "> TUNING AGENT NODES VIA LANGCHAIN & LANGGRAPH...",
     "> RETRIEVING EMBEDDINGS VECTOR SEARCH PILLARS FROM FAISS...",
     "> DEPLOYING MICROSERVICE CONTAINER WORKSPACES VIA FASTAPI...",
-    "> SYNC COMPLETED // SECURE EDGE AI INFRASTRUCTURE IS OPERATIONAL."
+    "> SYN COMPLETED // SECURE EDGE AI INFRASTRUCTURE IS OPERATIONAL."
   ];
 
   useEffect(() => {
@@ -95,6 +99,35 @@ export default function Home() {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [terminalLogs]);
 
+  // Form Submit Handler (Using Web3Forms - completely free public endpoint)
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus("TRANSMITTING");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "8173875b-a1ab-4327-9019-443bb8b0e61a", // Enter access token key here
+          subject: `Portfolio Contact from ${formData.name}`,
+          from_name: "Portfolio Portal",
+          to_email: "pranavneelam.1234@gmail.com",
+          ...formData
+        })
+      });
+
+      if (response.ok) {
+        setFormStatus("SUCCESS");
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        setFormStatus("ERROR");
+      }
+    } catch (err) {
+      setFormStatus("ERROR");
+    }
+  };
+
   const stack = {
     "ai-core": [
       { name: "Python", expert: true, icon: <Code2 size={13} className="text-indigo-400" /> },
@@ -146,7 +179,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* SOCIALS & ACTIONS BAR */}
           <div className="flex flex-wrap items-center gap-2.5">
             <a 
               href="/resume.pdf" 
@@ -185,8 +217,6 @@ export default function Home() {
 
         {/* MAIN IDENTITY MATRIX */}
         <div className="grid grid-cols-1 lg:grid-cols-12 w-full my-auto items-start gap-8 pt-8 pb-8">
-          
-          {/* Left Column */}
           <div className="lg:col-span-4 flex flex-col gap-2 pointer-events-auto self-center">
             <div className="flex flex-col gap-1 text-[11px] font-black tracking-wider text-indigo-400">
               <p className="flex items-center gap-1">&gt; SOURCE: VIDYA JYOTHI INSTITUTE OF TECHNOLOGY</p>
@@ -222,7 +252,6 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Center Column */}
           <div className="lg:col-span-4 flex justify-center items-center relative group pointer-events-auto z-20 self-center">
             <div className="absolute -inset-2 border border-indigo-500/10 rounded-xl pointer-events-none group-hover:border-indigo-500/20 transition-all duration-500" />
             <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-indigo-500 z-30" />
@@ -239,7 +268,6 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Right Column */}
           <div className="lg:col-span-4 flex flex-col gap-4 bg-zinc-950/80 p-4 border border-zinc-800/80 rounded-lg pointer-events-auto shadow-2xl">
             <div className="flex justify-between items-center border-b border-zinc-800 pb-2">
               <span className="flex items-center gap-1.5 text-[10px] uppercase font-black text-zinc-400 tracking-wider"><Activity size={12} className="text-indigo-400" /> Tech Matrix Console</span>
@@ -327,6 +355,87 @@ export default function Home() {
 
         {/* PROJECT GRID MATRIX */}
         <ProjectGrid />
+
+        {/* CONNECT TERMINAL LINK PIPELINE (FORM) */}
+        <section className="w-full max-w-4xl mx-auto mt-16 p-5 bg-zinc-950/80 border border-zinc-800 rounded-lg pointer-events-auto shadow-2xl">
+          <div className="flex justify-between items-center border-b border-zinc-800 pb-3 mb-5">
+            <span className="flex items-center gap-2 text-xs uppercase font-black text-indigo-400 tracking-widest">
+              <Terminal size={14} /> INITIALIZE_CONNECTION_PIPELINE
+            </span>
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/40"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/40"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/40"></span>
+            </div>
+          </div>
+
+          <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-zinc-500 font-black tracking-wider uppercase text-[10px]">01 // USER_NAME</label>
+              <input 
+                type="text" 
+                required
+                placeholder="Enter your name..."
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full bg-zinc-900 border border-zinc-800 p-2.5 rounded text-white focus:outline-none focus:border-indigo-500 font-mono transition-all"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-zinc-500 font-black tracking-wider uppercase text-[10px]">02 // USER_EMAIL</label>
+              <input 
+                type="email" 
+                required
+                placeholder="name@domain.com"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                className="w-full bg-zinc-900 border border-zinc-800 p-2.5 rounded text-white focus:outline-none focus:border-indigo-500 font-mono transition-all"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5 md:col-span-2">
+              <label className="text-zinc-500 font-black tracking-wider uppercase text-[10px]">03 // CONTACT_NUMBER (OPTIONAL)</label>
+              <input 
+                type="tel" 
+                placeholder="+91 XXXXX XXXXX"
+                value={formData.phone}
+                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                className="w-full bg-zinc-900 border border-zinc-800 p-2.5 rounded text-white focus:outline-none focus:border-indigo-500 font-mono transition-all"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5 md:col-span-2">
+              <label className="text-zinc-500 font-black tracking-wider uppercase text-[10px]">04 // BROADCAST_MESSAGE</label>
+              <textarea 
+                rows={4}
+                required
+                placeholder="Type your message or project requirements here..."
+                value={formData.message}
+                onChange={(e) => setFormData({...formData, message: e.target.value})}
+                className="w-full bg-zinc-900 border border-zinc-800 p-2.5 rounded text-white focus:outline-none focus:border-indigo-500 font-mono transition-all resize-none"
+              />
+            </div>
+
+            <div className="md:col-span-2 flex flex-col sm:flex-row justify-between items-center mt-2 gap-4">
+              <div className="text-[10px] font-bold uppercase tracking-wider">
+                {formStatus === "IDLE" && <span className="text-zinc-500">&gt; STATUS: PIPELINE_IDLE // READY_FOR_INPUT</span>}
+                {formStatus === "TRANSMITTING" && <span className="text-indigo-400 animate-pulse">&gt; STATUS: TRANSMITTING_DATA_PACKETS...</span>}
+                {formStatus === "SUCCESS" && <span className="text-emerald-400 font-black">&gt; STATUS: SUCCESS // MESSAGE_LOGGED_TO_PRANAV</span>}
+                {formStatus === "ERROR" && <span className="text-rose-500 font-black">&gt; STATUS: TRANSMISSION_FAILED // TRY_AGAIN</span>}
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={formStatus === "TRANSMITTING"}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-black uppercase tracking-widest rounded transition-all shadow-[0_4px_12px_rgba(99,102,241,0.2)] cursor-pointer"
+              >
+                <Send size={12} />
+                <span>Transmit Securely</span>
+              </button>
+            </div>
+          </form>
+        </section>
 
         {/* FOOTER */}
         <footer className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-zinc-900 pt-6 mt-12 text-[10px] text-zinc-500 font-bold pointer-events-auto">
